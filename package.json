@@ -1,0 +1,12 @@
+{
+  "name": "solita-vaccine-exercise",
+  "version": "1.0.0",
+  "description": "A web application showcasing vaccine orders and vaccinations",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "maarila",
+  "license": "MIT"
+}

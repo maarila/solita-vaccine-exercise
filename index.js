@@ -10,12 +10,16 @@ const config = {
 
 const client = new Client(config);
 
-const getAndPrintCurrentTime = async () => {
+const getRowCounts = async () => {
   await client.connect();
-  const res = await client.query('SELECT NOW()')
-  console.log(res);
-  console.log(res.rows[0]);
+  const resOrders = await client.query('SELECT COUNT(*) FROM orders;')
+  const resVaccinations = await client.query('SELECT COUNT(*) FROM vaccinations;')
+  console.log(resOrders);
+  console.log(resVaccinations);
+  console.log(resOrders.rows[0]);
+  console.log(resVaccinations.rows[0]);
+
   await client.end();
 };
 
-getAndPrintCurrentTime();
+getRowCounts();

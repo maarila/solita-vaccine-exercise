@@ -1,4 +1,6 @@
 const { Client } = require('pg');
+const express = require('express');
+const app = express();
 
 const config = {
   user: 'dev',
@@ -10,16 +12,19 @@ const config = {
 
 const client = new Client(config);
 
-const getRowCounts = async () => {
-  await client.connect();
-  const resOrders = await client.query('SELECT COUNT(*) FROM orders;')
-  const resVaccinations = await client.query('SELECT COUNT(*) FROM vaccinations;')
-  console.log(resOrders);
-  console.log(resVaccinations);
-  console.log(resOrders.rows[0]);
-  console.log(resVaccinations.rows[0]);
+app.get('/', async (req, res) => {
+  const orderRowCount = await getOrdersRowCount();
+  res.json(orderRowCount);
+});
 
+const getOrdersRowCount = async () => {
+  await client.connect();
+  const res = await client.query('SELECT COUNT(*) FROM orders;');
   await client.end();
+  return res.rows[0];
 };
 
-getRowCounts();
+const PORT = 3001;
+app.listen(PORT, () => {
+  console.log(`Backend server running on port ${PORT}`);
+});

@@ -73,21 +73,10 @@ const getSummaryUntilTimestamp = async (timestamp) => {
     values
   );
 
-  const vaccByGender = getVaccinationsGivenByGender.rows.map((row) => {
-    switch (row.gender) {
-      case 'female':
-        return { female: row.vaccinations_given };
-      case 'male':
-        return { male: row.vaccinations_given };
-      case 'nonbinary':
-        return { nonbinary: row.vaccinations_given };
-    }
-  });
-
   return {
     orders_and_vaccinations_by_producer:
       getOrdersAndVaccinationsByProducer.rows,
-    vaccinations_given_by_gender: vaccByGender,
+    vaccinations_given_by_gender: getVaccinationsGivenByGender.rows,
     ...getExpiredBottles.rows[0],
     ...getExpiredVaccines.rows[0],
     ...getVaccinesLeft.rows[0],

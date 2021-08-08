@@ -2,6 +2,11 @@ const { Client } = require('pg');
 const express = require('express');
 const cors = require('cors');
 
+let types = require('pg').types;
+types.setTypeParser(1114, (stringValue) => {
+  return new Date(Date.parse(stringValue + '+0000'));
+});
+
 const app = express();
 app.use(cors());
 
@@ -18,6 +23,16 @@ client.connect();
 
 const getSummaryUntilTimestamp = async (timestamp) => {
   const values = [timestamp];
+
+  const firstDataPoint = 'SELECT MIN(arrived) AS first_data_point FROM orders;';
+
+  const lastDataPoint = `SELECT DISTINCT GREATEST(
+    (SELECT MAX(arrived) FROM orders),
+    (SELECT MAX(vaccination_date) FROM vaccinations))
+    AS last_data_point
+    FROM orders
+    INNER JOIN vaccinations
+    ON orders.id = vaccinations.source_bottle;`;
 
   const ordersAndVaccinationsByProducer = `SELECT vaccine AS producer,
     COUNT(*) AS orders, SUM(injections) AS vaccinations
@@ -57,6 +72,8 @@ const getSummaryUntilTimestamp = async (timestamp) => {
     FROM orders WHERE arrived > $1::timestamp - INTERVAL '30 day'
     AND arrived <= $1::TIMESTAMP - INTERVAL '20 day';`;
 
+  const getFirstData = await client.query(firstDataPoint);
+  const getLastData = await client.query(lastDataPoint);
   const getOrdersAndVaccinationsByProducer = await client.query(
     ordersAndVaccinationsByProducer,
     values
@@ -74,6 +91,8 @@ const getSummaryUntilTimestamp = async (timestamp) => {
   );
 
   return {
+    ...getFirstData.rows[0],
+    ...getLastData.rows[0],
     orders_and_vaccinations_by_producer:
       getOrdersAndVaccinationsByProducer.rows,
     vaccinations_given_by_gender: getVaccinationsGivenByGender.rows,

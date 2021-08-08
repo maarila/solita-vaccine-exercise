@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import statsService from './services/statistics';
 
 const PerGender = ({ data }) => {
   return data
@@ -27,16 +27,14 @@ const OrdersByProducer = ({ data }) => {
 const App = () => {
   const [summary, setSummary] = useState([]);
   const [firstDataTime, setFirstDataTime] = useState('');
-  const [lastDataTime, setLastDataTime] = useState('');
-  const [getDataFromTimestamp, setGetDataFromTimestamp] = useState('');
+  const [currentTimestamp, setCurrentTimestamp] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3001').then((response) => {
-      setSummary(response.data);
-      setFirstDataTime(response.data.first_data_point);
-      setLastDataTime(response.data.last_data_point);
-      setGetDataFromTimestamp(
-        formatDefaultDatetime(response.data.last_data_point, 'up')
+    statsService.getFullSummary().then((summary) => {
+      setSummary(summary);
+      setFirstDataTime(summary.first_data_point);
+      setCurrentTimestamp(
+        formatDefaultDatetime('2021-04-12T11:10:06.473587Z')
       );
     });
   }, []);
@@ -97,34 +95,31 @@ const App = () => {
     }
   };
 
-  const getUntilDate = (event) => {
+  const getUntilDate = async (event) => {
     event.preventDefault();
-    console.log(getDataFromTimestamp);
+    const response = await statsService.getSummaryUntil(currentTimestamp)
+    setSummary(response)
   };
 
   const handleTimeChange = (event) => {
-    setGetDataFromTimestamp(formatDefaultDatetime(event.target.value));
+    setCurrentTimestamp(formatDefaultDatetime(event.target.value));
   };
 
   return (
     <>
       <h1>Vaccine statistics</h1>
       <h3>
-        Statistics available from {formatTimestamp(firstDataTime)} until{' '}
-        {formatTimestamp(lastDataTime, 'up')}
+        Statistics are available from {formatTimestamp(firstDataTime, 'up')}.
       </h3>
       <form onSubmit={getUntilDate}>
-        <label htmlFor="getStatisticsUntilTime">
-          Get statistics up to this day and time:
-        </label>
+        <label htmlFor="getStatisticsUntilTime">Currently showing: </label>
         <input
           type="datetime-local"
           id="timeToGet"
           name="timeToGet"
           onChange={handleTimeChange}
-          value={getDataFromTimestamp}
-          min={formatDefaultDatetime(firstDataTime)}
-          max={formatDefaultDatetime(lastDataTime, 'up')}
+          value={currentTimestamp}
+          min={formatDefaultDatetime(firstDataTime, 'up')}
         />
         <button type="submit">Get statistics</button>
       </form>

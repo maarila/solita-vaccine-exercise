@@ -104,8 +104,17 @@ const getSummaryUntilTimestamp = async (timestamp) => {
 };
 
 app.get('/', async (req, res) => {
-  const exampleTimestamp = ['2021-04-12T11:10:06.473587Z'];
-  const summary = await getSummaryUntilTimestamp(exampleTimestamp);
+  res.redirect('/api/statistics');
+});
+
+app.get('/api/statistics', async (req, res) => {
+  const defaultTime = ['2021-04-12T11:10:06.473587Z'];
+  const summary = await getSummaryUntilTimestamp(defaultTime);
+  res.json(summary);
+});
+
+app.get('/api/statistics/:timestamp', async (req, res) => {
+  const summary = await getSummaryUntilTimestamp(req.params.timestamp);
   res.json(summary);
 });
 

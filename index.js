@@ -59,7 +59,8 @@ const getSummaryUntilTimestamp = async (timestamp) => {
     (SELECT COUNT(*) FROM orders
     INNER JOIN vaccinations
     ON vaccinations.source_bottle = orders.id
-    WHERE arrived > $1::timestamp - INTERVAL '30 day' AND arrived <= $1)
+    WHERE vaccinations.vaccination_date > $1::timestamp - INTERVAL '30 day'
+    AND vaccinations.vaccination_date <= $1)
     AS vaccinations_remaining
     FROM orders
     WHERE arrived > $1::timestamp - INTERVAL '30 day' AND arrived <= $1;`;
@@ -67,8 +68,9 @@ const getSummaryUntilTimestamp = async (timestamp) => {
   const vaccinationsExpiringInTenDays = `SELECT SUM(injections) -
     (SELECT COUNT(*) FROM orders INNER JOIN vaccinations
     ON vaccinations.source_bottle = orders.id
-    WHERE arrived > $1::timestamp - INTERVAL '30 day'
-    AND arrived <= $1::timestamp - INTERVAL '20 day') AS expires_in_ten_days
+    WHERE vaccinations.vaccination_date > $1::timestamp - INTERVAL '30 day'
+    AND vaccinations.vaccination_date <= $1::timestamp - INTERVAL '20 day')
+    AS expires_in_ten_days
     FROM orders WHERE arrived > $1::timestamp - INTERVAL '30 day'
     AND arrived <= $1::TIMESTAMP - INTERVAL '20 day';`;
 

@@ -75,8 +75,6 @@ const getVaccinationsExpiringInTenDays = async (values) => {
 };
 
 const getAll = async (timestamp) => {
-  const values = [timestamp];
-
   const firstData = await getFirstData();
   const lastData = await getLastData();
   const byProducer = await getOrdersAndVaccinationsByProducer([timestamp]);

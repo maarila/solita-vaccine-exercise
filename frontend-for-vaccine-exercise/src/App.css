@@ -1,11 +1,19 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.header-bar-container {
+  width: 100%;
+  height: 2em;
+  background-color: #a7dbd8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2em;
+}
+.header-bar {
+  color: ##3a7875;
+  font-size: 1.6rem;
 }
 
 .container {
-  margin: 40px;
+  margin: 0 3em 0 3em;
   border: 1px solid red;
   display: flex;
   flex-direction: column;
@@ -14,7 +22,7 @@
 .header-container {
   border: 1px solid red;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   flex-wrap: wrap;
 }
 
@@ -28,6 +36,21 @@
   border: 1px solid red;
 }
 
+.title-line {
+  border: 1px solid red;
+  display: flex;
+  text-decoration: underline;
+  text-decoration-color: #f38630;
+  text-decoration-thickness: 0.35em;
+  text-underline-offset: 5px;
+  font-size: 3.2rem;
+  margin: 1em;
+}
+
+.green-icon {
+  color: #69d2e7;
+  margin: 0.5em;
+}
 .sub-title {
   border: 1px solid red;
 }
@@ -47,23 +70,32 @@
   border: 1px solid red;
   display: flex;
   flex-direction: row;
-  margin: 0;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 
-.vaccinations-given {
+.textual-info-container {
   border: 1px solid red;
-  margin: 0.5em;
+  display: flex;
+  flex-direction: column;
+  margin: 0.5em 0 0.5em 0;
 }
 
-.vaccinations-remaining {
+.info-text {
   border: 1px solid red;
-  margin: 0.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
 }
-
-.vaccinations-expiring {
+.info-number {
   border: 1px solid red;
-  margin: 0.5em;
+  display: flex;
+  justify-content: center;
+  font-size: 4rem;
+  font-weight: bold;
+  margin-top: 0.2em;
+  color: #a7dbd8;
 }
 
 .chart-container {

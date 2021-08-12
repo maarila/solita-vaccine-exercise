@@ -1,0 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  margin: 40px;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-bar {
+  border: 1px solid red;
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+}
+
+.subtitle {
+  border: 1px solid red;
+}
+
+.dateform-container {
+  border: 1px solid red;
+}
+
+.dateform {
+}
+
+.main-view-container {
+  border: 1px solid red;
+}
+
+.summary-bar {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: row;
+}
+
+.vaccine-order-container {
+  border: 1px solid red;
+}
+
+.vaccine-by-gender-container {
+  border: 1px solid red;
+}
+
+.expiring-container {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: row;
+}

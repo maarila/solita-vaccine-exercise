@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import statsService from './services/statistics';
+import './App.css';
 
 const PerGender = ({ data }) => {
   return data
@@ -33,9 +34,7 @@ const App = () => {
     statsService.getFullSummary().then((summary) => {
       setSummary(summary);
       setFirstDataTime(summary.first_data_point);
-      setCurrentTimestamp(
-        formatDefaultDatetime('2021-04-12T11:10:06.473587Z')
-      );
+      setCurrentTimestamp(formatDefaultDatetime('2021-04-12T11:10:06.473587Z'));
     });
   }, []);
 
@@ -97,8 +96,8 @@ const App = () => {
 
   const getUntilDate = async (event) => {
     event.preventDefault();
-    const response = await statsService.getSummaryUntil(currentTimestamp)
-    setSummary(response)
+    const response = await statsService.getSummaryUntil(currentTimestamp);
+    setSummary(response);
   };
 
   const handleTimeChange = (event) => {
@@ -106,43 +105,71 @@ const App = () => {
   };
 
   return (
-    <>
-      <h1>Vaccine statistics</h1>
-      <h3>
-        Statistics are available from {formatTimestamp(firstDataTime, 'up')}.
-      </h3>
-      <form onSubmit={getUntilDate}>
-        <label htmlFor="getStatisticsUntilTime">Currently showing: </label>
-        <input
-          type="datetime-local"
-          id="timeToGet"
-          name="timeToGet"
-          onChange={handleTimeChange}
-          value={currentTimestamp}
-          min={formatDefaultDatetime(firstDataTime, 'up')}
-        />
-        <button type="submit">Get statistics</button>
-      </form>
+    <div className="container">
+      <div className="header-bar">
+        <div className="title">
+          <div className="main-title">
+            <h1>Vaccine statistics</h1>
+          </div>
+          <div className="sub-title">
+            <h3>
+              Statistics are available from{' '}
+              {formatTimestamp(firstDataTime, 'up')}.
+            </h3>
+          </div>
+        </div>
+        <div className="dateform-container">
+          <div className="dateform">
+            <form onSubmit={getUntilDate}>
+              <label htmlFor="getStatisticsUntilTime">
+                Currently showing:{' '}
+              </label>
+              <input
+                type="datetime-local"
+                id="timeToGet"
+                name="timeToGet"
+                onChange={handleTimeChange}
+                value={currentTimestamp}
+                min={formatDefaultDatetime(firstDataTime, 'up')}
+              />
+              <button type="submit">Get statistics</button>
+            </form>
+          </div>
+        </div>
+      </div>
       <br />
       <br />
-      <div>Expired Bottles: {summary.expired_bottles}</div>
-      <div>Expired vaccines: {summary.expired_vaccines}</div>
-      <div>Vaccinations remaining: {summary.vaccinations_remaining}</div>
-      <div>Expires in 10 days: {summary.expires_in_ten_days}</div>
-      <PerGender data={summary.vaccinations_given_by_gender} />
-      <div>
-        Total vaccinations given:{' '}
-        {givenVaccinationsSum(summary.vaccinations_given_by_gender)}
+      <div className="main-view-container">
+        <div className="summary-bar">
+          <div>
+            Total vaccinations given:{' '}
+            {givenVaccinationsSum(summary.vaccinations_given_by_gender)}
+          </div>
+          <div>Vaccinations remaining: {summary.vaccinations_remaining}</div>
+          <div>Expires in 10 days: {summary.expires_in_ten_days}</div>
+        </div>
+        <div className="vaccine-order-container">
+          <OrdersByProducer
+            data={summary.orders_and_vaccinations_by_producer}
+          />
+          <div>
+            Orders total:{' '}
+            {ordersSum(summary.orders_and_vaccinations_by_producer)}
+          </div>
+          <div>
+            Vaccinations total:{' '}
+            {vaccinationsSum(summary.orders_and_vaccinations_by_producer)}
+          </div>
+        </div>
+        <div className="vaccine-by-gender-container">
+          <PerGender data={summary.vaccinations_given_by_gender} />
+        </div>
+        <div className="expiring-container">
+          <div>Expired Bottles: {summary.expired_bottles}</div>
+          <div>Expired vaccines: {summary.expired_vaccines}</div>
+        </div>
       </div>
-      <OrdersByProducer data={summary.orders_and_vaccinations_by_producer} />
-      <div>
-        Orders total: {ordersSum(summary.orders_and_vaccinations_by_producer)}
-      </div>
-      <div>
-        Vaccinations total:{' '}
-        {vaccinationsSum(summary.orders_and_vaccinations_by_producer)}
-      </div>
-    </>
+    </div>
   );
 };
 

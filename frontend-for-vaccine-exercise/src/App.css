@@ -11,10 +11,11 @@
   flex-direction: column;
 }
 
-.header-bar {
+.header-container {
   border: 1px solid red;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .title {
@@ -23,7 +24,11 @@
   flex-direction: column;
 }
 
-.subtitle {
+.main-title {
+  border: 1px solid red;
+}
+
+.sub-title {
   border: 1px solid red;
 }
 
@@ -42,6 +47,30 @@
   border: 1px solid red;
   display: flex;
   flex-direction: row;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.vaccinations-given {
+  border: 1px solid red;
+  margin: 0.5em;
+}
+
+.vaccinations-remaining {
+  border: 1px solid red;
+  margin: 0.5em;
+}
+
+.vaccinations-expiring {
+  border: 1px solid red;
+  margin: 0.5em;
+}
+
+.chart-container {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .vaccine-order-container {
@@ -56,4 +85,15 @@
   border: 1px solid red;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.expired-bottles {
+  border: 1px solid red;
+  margin: 0.5em;
+}
+
+.expired-vaccines {
+  border: 1px solid red;
+  margin: 0.5em;
 }

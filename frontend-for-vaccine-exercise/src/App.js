@@ -106,7 +106,7 @@ const App = () => {
 
   return (
     <div className="container">
-      <div className="header-bar">
+      <div className="header-container">
         <div className="title">
           <div className="main-title">
             <h1>Vaccine statistics</h1>
@@ -141,32 +141,42 @@ const App = () => {
       <br />
       <div className="main-view-container">
         <div className="summary-bar">
-          <div>
+          <div className="vaccinations-given">
             Total vaccinations given:{' '}
             {givenVaccinationsSum(summary.vaccinations_given_by_gender)}
           </div>
-          <div>Vaccinations remaining: {summary.vaccinations_remaining}</div>
-          <div>Expires in 10 days: {summary.expires_in_ten_days}</div>
-        </div>
-        <div className="vaccine-order-container">
-          <OrdersByProducer
-            data={summary.orders_and_vaccinations_by_producer}
-          />
-          <div>
-            Orders total:{' '}
-            {ordersSum(summary.orders_and_vaccinations_by_producer)}
+          <div className="vaccinations-remaining">
+            Vaccinations remaining: {summary.vaccinations_remaining}
           </div>
-          <div>
-            Vaccinations total:{' '}
-            {vaccinationsSum(summary.orders_and_vaccinations_by_producer)}
+          <div className="vaccinations-expiring">
+            Expires in 10 days: {summary.expires_in_ten_days}
           </div>
         </div>
-        <div className="vaccine-by-gender-container">
-          <PerGender data={summary.vaccinations_given_by_gender} />
+        <div className="chart-container">
+          <div className="vaccine-order-container">
+            <OrdersByProducer
+              data={summary.orders_and_vaccinations_by_producer}
+            />
+            <div className="orders-total">
+              Orders total:{' '}
+              {ordersSum(summary.orders_and_vaccinations_by_producer)}
+            </div>
+            <div className="vaccinations-total">
+              Vaccinations total:{' '}
+              {vaccinationsSum(summary.orders_and_vaccinations_by_producer)}
+            </div>
+          </div>
+          <div className="vaccine-by-gender-container">
+            <PerGender data={summary.vaccinations_given_by_gender} />
+          </div>
         </div>
         <div className="expiring-container">
-          <div>Expired Bottles: {summary.expired_bottles}</div>
-          <div>Expired vaccines: {summary.expired_vaccines}</div>
+          <div className="expired-bottles">
+            Expired Bottles: {summary.expired_bottles}
+          </div>
+          <div className="expired-vaccines">
+            Expired vaccines: {summary.expired_vaccines}
+          </div>
         </div>
       </div>
     </div>

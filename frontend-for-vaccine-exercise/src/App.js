@@ -5,20 +5,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { Bar, Pie } from 'react-chartjs-2';
 
-const BarChart = ({ labelSet, orderDataSet, vaccDataSet }) => {
+const BarChart = ({ producers, orderAmount, vaccAmount }) => {
+  console.log(producers);
   const data = {
-    labels: ['SolarBuddhica', 'Zerpfy', 'Antiqua'],
+    labels: producers,
     datasets: [
       {
         label: 'orders',
-        data: [1676, 1663, 1661],
+        data: orderAmount,
         backgroundColor: 'rgba(255, 99, 132, 0.4)',
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1,
       },
       {
         label: 'vaccinations',
-        data: [10056, 8315, 6644],
+        data: vaccAmount,
         backgroundColor: 'rgba(54, 162, 235, 0.4)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
@@ -78,6 +79,9 @@ const App = () => {
   const [currentTimestamp, setCurrentTimestamp] = useState('');
   const [vaccLabelByGender, setVaccLabelByGender] = useState([]);
   const [vaccByGender, setVaccByGender] = useState([]);
+  const [orderLabels, setOrderLabels] = useState([]);
+  const [orderAmount, setOrderAmount] = useState([]);
+  const [vaccAmount, setVaccAmount] = useState([]);
 
   useEffect(() => {
     statsService.getFullSummary().then((summary) => {
@@ -90,6 +94,15 @@ const App = () => {
       setVaccLabelByGender(
         createGenderLabelSet(summary.vaccinations_given_by_gender)
       );
+      setOrderLabels(
+        createOrderLabels(summary.orders_and_vaccinations_by_producer)
+      );
+      setOrderAmount(
+        createOrderAmount(summary.orders_and_vaccinations_by_producer)
+      );
+      setVaccAmount(
+        createVaccAmount(summary.orders_and_vaccinations_by_producer)
+      );
     });
   }, []);
 
@@ -98,7 +111,7 @@ const App = () => {
       ? vaccByGender
           .map((genderData) => Number(genderData.vaccinations_given))
           .reduce((acc, sum) => acc + sum, 0)
-      : null;
+      : 0;
   };
 
   const formatTimestamp = (timestamp, rounding) => {
@@ -137,6 +150,19 @@ const App = () => {
     event.preventDefault();
     const response = await statsService.getSummaryUntil(currentTimestamp);
     setSummary(response);
+    setVaccByGender(createGenderDataSet(response.vaccinations_given_by_gender));
+    setVaccLabelByGender(
+      createGenderLabelSet(response.vaccinations_given_by_gender)
+    );
+    setOrderLabels(
+      createOrderLabels(response.orders_and_vaccinations_by_producer)
+    );
+    setOrderAmount(
+      createOrderAmount(response.orders_and_vaccinations_by_producer)
+    );
+    setVaccAmount(
+      createVaccAmount(response.orders_and_vaccinations_by_producer)
+    );
   };
 
   const handleTimeChange = (event) => {
@@ -153,6 +179,17 @@ const App = () => {
     return genderData ? genderData.map((item) => item.gender) : null;
   };
 
+  const createOrderAmount = (orderData) => {
+    return orderData ? orderData.map((item) => item.orders) : null;
+  };
+
+  const createVaccAmount = (orderData) => {
+    return orderData ? orderData.map((item) => item.vaccinations) : null;
+  };
+
+  const createOrderLabels = (orderData) => {
+    return orderData ? orderData.map((item) => item.producer) : null;
+  };
   return (
     <div>
       <div className="header-bar-container">
@@ -225,7 +262,11 @@ const App = () => {
               <div className="chart-title">
                 Total number of orders and vaccinations arrived by producer
               </div>
-              <BarChart />
+              <BarChart
+                producers={orderLabels}
+                orderAmount={orderAmount}
+                vaccAmount={vaccAmount}
+              />
             </div>
             <div className="vaccine-by-gender-container">
               <div className="chart-title">Vaccinations given by gender</div>

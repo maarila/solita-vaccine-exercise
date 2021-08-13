@@ -4,9 +4,9 @@ import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { Bar, Pie } from 'react-chartjs-2';
+import { defaults } from 'react-chartjs-2';
 
 const BarChart = ({ producers, orderAmount, vaccAmount }) => {
-  console.log(producers);
   const data = {
     labels: producers,
     datasets: [
@@ -105,6 +105,9 @@ const App = () => {
       );
     });
   }, []);
+
+  // Disable animating charts by default.
+  defaults.animation = false;
 
   const givenVaccinationsSum = (vaccByGender) => {
     return vaccByGender
@@ -231,11 +234,6 @@ const App = () => {
             </form>
           </div>
         </div>
-        <div className="sub-title">
-          <h3>
-            Statistics available from {formatTimestamp(firstDataTime, 'up')}.
-          </h3>
-        </div>
         <div>
           <div className="summary-bar">
             <div className="textual-info-container">
@@ -275,12 +273,12 @@ const App = () => {
           </div>
           <div className="summary-bar">
             <div className="textual-info-container">
-              <div className="info-text">Expired ...bottles</div>
+              <div className="info-text">Expired bottles</div>
               <div className="info-number">{summary.expired_bottles}</div>
             </div>
             <div className="divider" />
             <div className="textual-info-container">
-              <div className="info-text">...vaccines</div>
+              <div className="info-text">Expired vaccines</div>
               <div className="info-number">{summary.expired_vaccines}</div>
             </div>
           </div>

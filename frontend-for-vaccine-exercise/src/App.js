@@ -3,17 +3,34 @@ import statsService from './services/statistics';
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { Pie } from 'react-chartjs-2';
 
-const PerGender = ({ data }) => {
-  return data
-    ? data.map((item) => (
-        <div key={item.gender}>
-          <div>
-            {item.gender} {item.vaccinations_given}
-          </div>
-        </div>
-      ))
-    : null;
+const PieChart = ({ dataSet }) => {
+  const data = {
+    labels: ['female', 'male', 'nonbinary'],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: dataSet,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+  return dataSet ? (
+    <>
+      <Pie data={data} />
+    </>
+  ) : null;
 };
 
 const OrdersByProducer = ({ data }) => {
@@ -31,12 +48,16 @@ const App = () => {
   const [summary, setSummary] = useState([]);
   const [firstDataTime, setFirstDataTime] = useState('');
   const [currentTimestamp, setCurrentTimestamp] = useState('');
+  const [vaccByGender, setVaccByGender] = useState([]);
 
   useEffect(() => {
     statsService.getFullSummary().then((summary) => {
       setSummary(summary);
       setFirstDataTime(summary.first_data_point);
       setCurrentTimestamp(formatDefaultDatetime('2021-04-12T11:10:06.473587Z'));
+      setVaccByGender(
+        createGenderDataSet(summary.vaccinations_given_by_gender)
+      );
     });
   }, []);
 
@@ -104,6 +125,12 @@ const App = () => {
 
   const handleTimeChange = (event) => {
     setCurrentTimestamp(formatDefaultDatetime(event.target.value));
+  };
+
+  const createGenderDataSet = (genderData) => {
+    return genderData
+      ? genderData.map((item) => item.vaccinations_given)
+      : null;
   };
 
   return (
@@ -186,7 +213,8 @@ const App = () => {
               </div>
             </div>
             <div className="vaccine-by-gender-container">
-              <PerGender data={summary.vaccinations_given_by_gender} />
+              <div className="chart-title">Given vaccinations by gender</div>
+              <PieChart dataSet={vaccByGender} />
             </div>
           </div>
           <div className="summary-bar">

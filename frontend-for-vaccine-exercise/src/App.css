@@ -125,12 +125,16 @@
   flex-wrap: wrap;
 }
 
+.chart-title {
+  font-size: 2rem;
+}
+
 .vaccine-order-container {
   border: 1px solid red;
 }
 
 .vaccine-by-gender-container {
-  border: 1px solid red;
+  margin: 1em;
 }
 
 .footer-container {

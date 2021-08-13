@@ -5,13 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { Pie } from 'react-chartjs-2';
 
-const PieChart = ({ dataSet }) => {
+const PieChart = ({ vaccSet, labelSet }) => {
   const data = {
-    labels: ['female', 'male', 'nonbinary'],
+    labels: labelSet,
     datasets: [
       {
         label: '# of Votes',
-        data: dataSet,
+        data: vaccSet,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -26,7 +26,7 @@ const PieChart = ({ dataSet }) => {
       },
     ],
   };
-  return dataSet ? (
+  return vaccSet && labelSet ? (
     <>
       <Pie data={data} />
     </>
@@ -48,6 +48,7 @@ const App = () => {
   const [summary, setSummary] = useState([]);
   const [firstDataTime, setFirstDataTime] = useState('');
   const [currentTimestamp, setCurrentTimestamp] = useState('');
+  const [vaccLabelByGender, setVaccLabelByGender] = useState([]);
   const [vaccByGender, setVaccByGender] = useState([]);
 
   useEffect(() => {
@@ -57,6 +58,9 @@ const App = () => {
       setCurrentTimestamp(formatDefaultDatetime('2021-04-12T11:10:06.473587Z'));
       setVaccByGender(
         createGenderDataSet(summary.vaccinations_given_by_gender)
+      );
+      setVaccLabelByGender(
+        createGenderLabelSet(summary.vaccinations_given_by_gender)
       );
     });
   }, []);
@@ -131,6 +135,10 @@ const App = () => {
     return genderData
       ? genderData.map((item) => item.vaccinations_given)
       : null;
+  };
+
+  const createGenderLabelSet = (genderData) => {
+    return genderData ? genderData.map((item) => item.gender) : null;
   };
 
   return (
@@ -214,7 +222,7 @@ const App = () => {
             </div>
             <div className="vaccine-by-gender-container">
               <div className="chart-title">Given vaccinations by gender</div>
-              <PieChart dataSet={vaccByGender} />
+              <PieChart labelSet={vaccLabelByGender} vaccSet={vaccByGender} />
             </div>
           </div>
           <div className="summary-bar">

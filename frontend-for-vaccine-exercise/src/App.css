@@ -81,7 +81,6 @@
 
 .submit-button:hover {
   background-color: #da6c16;
- 
 }
 .main-view-container {
 }
@@ -109,6 +108,7 @@
   margin-right: 0.5em;
   padding: 0.3em;
 }
+
 .info-number {
   display: flex;
   justify-content: center;
@@ -131,4 +131,33 @@
 
 .vaccine-by-gender-container {
   border: 1px solid red;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  border-top: 4px dotted #a7dbd8;
+  margin-top: 2em;
+  padding-top: 2em;
+}
+
+.footer-icon {
+  font-size: 1.1em;
+  color: #a7dbd8;
+  margin: 0.2em 0.5em 0.5em 0;
+}
+
+.footer-text {
+  display: flex;
+  text-decoration: underline;
+  text-decoration-color: #f38630;
+  text-decoration-thickness: 0.2em;
+  text-underline-offset: 3px;
+  font-size: 1.9rem;
+}
+
+.footer-neutral-text {
+  padding-top: 3px;
+  text-decoration: none;
 }

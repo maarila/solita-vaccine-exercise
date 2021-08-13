@@ -117,56 +117,57 @@ const App = () => {
       <div className="container">
         <div className="header-container">
           <div className="title">
-            <div className="main-title">
-              <div className="title-line">
-                <div className="green-icon">
-                  <FontAwesomeIcon icon={faChartLine} size="lg" />
-                </div>
-                <h1>Vaccine statistics</h1>
+            <div className="title-line">
+              <div className="header-icon">
+                <FontAwesomeIcon icon={faChartLine} size="lg" />
               </div>
-            </div>
-            <div className="sub-title">
-              <h3>
-                Statistics are available from{' '}
-                {formatTimestamp(firstDataTime, 'up')}.
-              </h3>
+              <h1>Vaccine statistics</h1>
             </div>
           </div>
-          <div className="dateform-container">
-            <div className="dateform">
-              <form onSubmit={getUntilDate}>
-                <label htmlFor="getStatisticsUntilTime">
-                  Currently showing:{' '}
-                </label>
-                <input
-                  type="datetime-local"
-                  id="timeToGet"
-                  name="timeToGet"
-                  onChange={handleTimeChange}
-                  value={currentTimestamp}
-                  min={formatDefaultDatetime(firstDataTime, 'up')}
-                />
-                <button type="submit">Get statistics</button>
-              </form>
-            </div>
+        </div>
+        <div className="dateform-container">
+          <div className="dateform">
+            <form onSubmit={getUntilDate}>
+              <label htmlFor="getStatisticsUntilTime">
+                Currently showing:{' '}
+              </label>
+              <br />
+              <input
+                className="datetime-picker"
+                type="datetime-local"
+                id="timeToGet"
+                name="timeToGet"
+                onChange={handleTimeChange}
+                value={currentTimestamp}
+                min={formatDefaultDatetime(firstDataTime, 'up')}
+              />
+              <button className="submit-button" type="submit">
+                Get statistics
+              </button>
+            </form>
           </div>
+        </div>
+        <div className="sub-title">
+          <h3>
+            Statistics available from {formatTimestamp(firstDataTime, 'up')}.
+          </h3>
         </div>
         <div className="main-view-container">
           <div className="summary-bar">
             <div className="textual-info-container">
-              <div className="info-text">Vaccinations given so far </div>
+              <div className="info-text">Vaccinations ...given</div>
               <div className="info-number">
                 {givenVaccinationsSum(summary.vaccinations_given_by_gender)}
               </div>
             </div>
             <div className="textual-info-container">
-              <div className="info-text">Vaccinations in storage</div>
+              <div className="info-text">...in storage</div>
               <div className="info-number">
                 {summary.vaccinations_remaining}
               </div>
             </div>
             <div className="textual-info-container">
-              <div className="info-text">Vaccinations expiring in 10 days</div>
+              <div className="info-text">...expiring in ten days</div>
               <div className="info-number">{summary.expires_in_ten_days}</div>
             </div>
           </div>
@@ -188,12 +189,14 @@ const App = () => {
               <PerGender data={summary.vaccinations_given_by_gender} />
             </div>
           </div>
-          <div className="expiring-container">
-            <div className="expired-bottles">
-              Expired Bottles: {summary.expired_bottles}
+          <div className="summary-bar">
+            <div className="textual-info-container">
+              <div className="info-text">Expired ...bottles</div>
+              <div className="info-number">{summary.expired_bottles}</div>
             </div>
-            <div className="expired-vaccines">
-              Expired vaccines: {summary.expired_vaccines}
+            <div className="textual-info-container">
+              <div className="info-text">...vaccines</div>
+              <div className="info-number">{summary.expired_vaccines}</div>
             </div>
           </div>
         </div>

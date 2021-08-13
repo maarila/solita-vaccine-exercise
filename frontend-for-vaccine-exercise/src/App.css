@@ -21,15 +21,12 @@
 .header-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .title {
   display: flex;
   flex-direction: column;
-}
-
-.main-title {
-  border: 1px solid red;
 }
 
 .title-line {
@@ -47,7 +44,10 @@
   color: #a7dbd8;
   margin: 0.5em 0.5em 0.5em 0;
 }
+
 .sub-title {
+  display: flex;
+  justify-content: center;
   margin-top: 0.3em;
   margin-bottom: 2em;
   padding-bottom: 3em;
@@ -55,6 +55,8 @@
 }
 
 .dateform-container {
+  display: flex;
+  justify-content: center;
   margin-top: 2em;
 }
 
@@ -80,8 +82,6 @@
 .submit-button:hover {
   background-color: #da6c16;
 }
-.main-view-container {
-}
 
 .divider {
   border-left: 3px solid #a7dbd8;
@@ -94,6 +94,7 @@
   flex-wrap: wrap;
   border-top: 4px dotted #a7dbd8;
   border-bottom: 4px dotted #a7dbd8;
+  justify-content: center;
 }
 
 .textual-info-container {
@@ -122,6 +123,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .chart-title {
@@ -139,7 +141,7 @@
 .footer-container {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   margin-top: 2em;
   padding-top: 2em;
 }

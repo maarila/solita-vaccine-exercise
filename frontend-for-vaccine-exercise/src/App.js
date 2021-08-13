@@ -72,17 +72,6 @@ const PieChart = ({ vaccSet, labelSet }) => {
   ) : null;
 };
 
-const OrdersByProducer = ({ data }) => {
-  return data
-    ? data.map((item) => (
-        <div key={item.producer}>
-          producer: {item.producer} orders: {item.orders} vaccinations:{' '}
-          {item.vaccinations}
-        </div>
-      ))
-    : null;
-};
-
 const App = () => {
   const [summary, setSummary] = useState([]);
   const [firstDataTime, setFirstDataTime] = useState('');
@@ -108,22 +97,6 @@ const App = () => {
     return vaccByGender
       ? vaccByGender
           .map((genderData) => Number(genderData.vaccinations_given))
-          .reduce((acc, sum) => acc + sum, 0)
-      : null;
-  };
-
-  const ordersSum = (orderByProducer) => {
-    return orderByProducer
-      ? orderByProducer
-          .map((order) => Number(order.orders))
-          .reduce((acc, sum) => acc + sum, 0)
-      : null;
-  };
-
-  const vaccinationsSum = (orderByProducer) => {
-    return orderByProducer
-      ? orderByProducer
-          .map((order) => Number(order.vaccinations))
           .reduce((acc, sum) => acc + sum, 0)
       : null;
   };
@@ -226,7 +199,7 @@ const App = () => {
             Statistics available from {formatTimestamp(firstDataTime, 'up')}.
           </h3>
         </div>
-        <div className="main-view-container">
+        <div>
           <div className="summary-bar">
             <div className="textual-info-container">
               <div className="info-text">Vaccinations ...given</div>
@@ -255,7 +228,7 @@ const App = () => {
               <BarChart />
             </div>
             <div className="vaccine-by-gender-container">
-              <div className="chart-title">Given vaccinations by gender</div>
+              <div className="chart-title">Vaccinations given by gender</div>
               <PieChart labelSet={vaccLabelByGender} vaccSet={vaccByGender} />
             </div>
           </div>

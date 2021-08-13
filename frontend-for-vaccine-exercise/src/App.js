@@ -3,14 +3,53 @@ import statsService from './services/statistics';
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
-import { Pie } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
+
+const BarChart = ({ labelSet, orderDataSet, vaccDataSet }) => {
+  const data = {
+    labels: ['SolarBuddhica', 'Zerpfy', 'Antiqua'],
+    datasets: [
+      {
+        label: 'orders',
+        data: [1676, 1663, 1661],
+        backgroundColor: 'rgba(255, 99, 132, 0.4)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+      },
+      {
+        label: 'vaccinations',
+        data: [10056, 8315, 6644],
+        backgroundColor: 'rgba(54, 162, 235, 0.4)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+  };
+  return (
+    <>
+      <Bar data={data} options={options} />
+    </>
+  );
+};
 
 const PieChart = ({ vaccSet, labelSet }) => {
   const data = {
     labels: labelSet,
     datasets: [
       {
-        label: '# of Votes',
+        label: 'vaccinations by gender',
         data: vaccSet,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
@@ -195,12 +234,14 @@ const App = () => {
                 {givenVaccinationsSum(summary.vaccinations_given_by_gender)}
               </div>
             </div>
+            <div className="divider" />
             <div className="textual-info-container">
               <div className="info-text">...in storage</div>
               <div className="info-number">
                 {summary.vaccinations_remaining}
               </div>
             </div>
+            <div className="divider" />
             <div className="textual-info-container">
               <div className="info-text">...expiring in ten days</div>
               <div className="info-number">{summary.expires_in_ten_days}</div>
@@ -208,17 +249,10 @@ const App = () => {
           </div>
           <div className="chart-container">
             <div className="vaccine-order-container">
-              <OrdersByProducer
-                data={summary.orders_and_vaccinations_by_producer}
-              />
-              <div className="orders-total">
-                Orders total:{' '}
-                {ordersSum(summary.orders_and_vaccinations_by_producer)}
+              <div className="chart-title">
+                Total number of orders and vaccinations arrived by producer
               </div>
-              <div className="vaccinations-total">
-                Vaccinations total:{' '}
-                {vaccinationsSum(summary.orders_and_vaccinations_by_producer)}
-              </div>
+              <BarChart />
             </div>
             <div className="vaccine-by-gender-container">
               <div className="chart-title">Given vaccinations by gender</div>
@@ -230,6 +264,7 @@ const App = () => {
               <div className="info-text">Expired ...bottles</div>
               <div className="info-number">{summary.expired_bottles}</div>
             </div>
+            <div className="divider" />
             <div className="textual-info-container">
               <div className="info-text">...vaccines</div>
               <div className="info-number">{summary.expired_vaccines}</div>

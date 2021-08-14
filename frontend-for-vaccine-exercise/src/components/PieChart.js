@@ -21,7 +21,7 @@ const PieChart = ({ vaccSet, labelSet }) => {
       },
     ],
   };
-  return <Pie data={data} />;
+  return vaccSet && labelSet ? <Pie data={data} /> : null;
 };
 
 export default PieChart;

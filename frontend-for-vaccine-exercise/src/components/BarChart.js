@@ -32,7 +32,9 @@ const BarChart = ({ producers, orderAmount, vaccAmount }) => {
       ],
     },
   };
-  return <Bar data={data} options={options} />;
+  return producers && orderAmount && vaccAmount ? (
+    <Bar data={data} options={options} />
+  ) : null;
 };
 
 export default BarChart;

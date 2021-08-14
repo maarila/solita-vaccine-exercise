@@ -35,17 +35,19 @@ const StatisticalInfo = ({ summary }) => {
       <div className="summary-bar">
         <TextInfo
           text="Vaccinations ...given"
-          number={givenVaccinationsSum(summary.vaccinations_given_by_gender)}
+          number={
+            givenVaccinationsSum(summary.vaccinations_given_by_gender) || '-'
+          }
         />
         <div className="divider" />
         <TextInfo
           text="...in storage"
-          number={summary.vaccinations_remaining}
+          number={summary.vaccinations_remaining || '-'}
         />
         <div className="divider" />
         <TextInfo
           text="...expiring in ten days"
-          number={summary.expires_in_ten_days}
+          number={summary.expires_in_ten_days || '-'}
         />
       </div>
       <ChartRow
@@ -64,9 +66,15 @@ const StatisticalInfo = ({ summary }) => {
         vaccByGender={createGenderDataSet(summary.vaccinations_given_by_gender)}
       />
       <div className="summary-bar">
-        <TextInfo text="Expired bottles" number={summary.expired_bottles} />
+        <TextInfo
+          text="Expired bottles"
+          number={Number(summary.expired_bottles) || '-'}
+        />
         <div className="divider" />
-        <TextInfo text="Expired vaccines" number={summary.expired_vaccines} />
+        <TextInfo
+          text="Expired vaccines"
+          number={summary.expired_vaccines || '-'}
+        />
       </div>
     </div>
   );

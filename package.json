@@ -8,6 +8,7 @@
     "dev": "nodemon index.js",
     "test": "jest --verbose --runInBand",
     "lint": "eslint .",
+    "build:ui": "rm -rf build/ && cd frontend-for-vaccine-exercise/ && npm run build && cp -r build ../",
     "cypress:open": "cypress open",
     "cypress:e2e": "cypress run"
   },

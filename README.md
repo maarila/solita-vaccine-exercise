@@ -80,6 +80,8 @@ npm start
 npm run build:ui
 ```
 
+3. The built app can be run in the browser at *http://localhost:3001*.
+
 ## Running tests
 
 ### Backend integration tests:
@@ -176,7 +178,7 @@ CREATE TABLE vaccinations (
 )
 ```
 
-4. Run the following commands to copy data from the CSV files to the tables that were just created. **Please note: replace the file path with the pathfrom root to the *solita-vaccine-exercise/* directory.**
+4. Run the following commands to copy data from the CSV files to the tables that were just created. **Please note: replace the file path with the path from root to the *solita-vaccine-exercise/* directory.**
 
 ```
 COPY orders(id, order_number, responsible_person, healthcare_district, vaccine, injections, arrived)

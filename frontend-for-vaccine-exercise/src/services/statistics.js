@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3001/api/statistics';
+const baseUrl = '/api/statistics';
 
 const getFullSummary = async (timestamp) => {
   const response = await axios.get(`${baseUrl}`);

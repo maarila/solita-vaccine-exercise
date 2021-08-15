@@ -14,16 +14,16 @@ describe('Vaccine statistics web app', function() {
   });
 
   it('fetching first available data provides expected result', function() {
-    cy.visit('http://localhost:3000')
-    cy.get('.datetime-picker').type('2021-01-02T13:27')
-    cy.get('.submit-button').click()
-    cy.contains('5')
-  })
-  
+    cy.visit('http://localhost:3000');
+    cy.get('.datetime-picker').type('2021-01-02T13:27');
+    cy.get('.submit-button').click();
+    cy.contains('5');
+  });
+
   it('fetching late data provides all expired vaccines', function() {
-    cy.visit('http://localhost:3000')
-    cy.get('.datetime-picker').type('2021-07-01T00:00')
-    cy.get('.submit-button').click()
-    cy.contains('18015')
-  })
+    cy.visit('http://localhost:3000');
+    cy.get('.datetime-picker').type('2021-07-01T00:00');
+    cy.get('.submit-button').click();
+    cy.contains('18015');
+  });
 });

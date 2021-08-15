@@ -28,6 +28,10 @@
     "supertest": "^6.1.4"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "<rootDir>/cypress/",
+      "<rootDir>/frontend-for-vaccine-exercise/"
+    ]
   }
 }

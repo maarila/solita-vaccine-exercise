@@ -52,7 +52,7 @@ npm install
 8. Install frontend dependencies:
 
 ```
-cd front-end-for-vaccine-exercise
+cd frontend-for-vaccine-exercise
 npm install
 ```
 

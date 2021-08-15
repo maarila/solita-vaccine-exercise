@@ -1,6 +1,6 @@
 # solita-vaccination-exercise
 
-Below are the instructions for setting up, building and running the web. The instructions are intended for Mac/Linux.
+Below are the instructions for setting up, building and running the web app. The instructions are intended for Mac/Linux platforms.
 
 ## Running the application
 
@@ -14,43 +14,40 @@ sudo -u postgres psql postgres
 \q
 ```
 
-  * Please refer to your preferred method of installation on the necessary steps to create a user, a database and possibly a password.
+  * Please refer to your preferred method of installation on the necessary steps required to create a user, a database and possibly a password for the user.
 
 2. [Install Node.js.](https://nodejs.org/en/download/)
 
-3. Copy or clone the repository:
+3. Copy or clone the repository, and change directory:
 
-```git clone https://github.com/maarila/solita-vaccine-exercise.git```
+```
+git clone https://github.com/maarila/solita-vaccine-exercise.git
+cd solita-vaccine-exercise/
+```
 
-4. Change directory to the copied repository:
+4. Restore the database. For Mac and Postgres.app, replace the DBNAME with the username used when installing PostgreSQL (see 1). 
 
-```cd solita-vaccine-exercise/```
+*Mac and Postgres.app:*
 
-5. Restore the database. Replace the DBNAME with the username used when installing PostgreSQL (see 1). 
+```
+psql DBNAME < orders_and_vaccinations.sql
+```
 
-Mac and Postgres.app:
+*Ubuntu:*
 
-```psql DBNAME < orders_and_vaccinations.sql```
+```
+sudo -u postgres psql postgres < orders_and_vaccinations.sql
+```
 
-Ubuntu:
+Alternatively see the section *The original method of initialising the database* for instructions on how to initialise the database directly from the source files (ending in the same state as by restoring the dump).
 
-```sudo -u postgres psql postgres < orders_and_vaccinations.sql```
+5. Edit the file utils/config.js and replace the 'user', 'database' and 'password' (if needed) entries with correct information. 
 
-Alternatively see section 'The original method of initialising the database' for instuctions how to initialise the database directly from the source files (ending in the same state as by restoring the dump).
+6. Install backend dependencies:
 
-6. Edit the file utils/config.js and replace the 'user' and 'database' entries with correct information. The replacement operation can be made, for instance, with sed:
-
-Ubuntu:
-
-```sed -i "s/dev/postgres/g" utils/config.js```
-
-Mac:
-
-```sed -i '' "s/dev/$(USER)/g" utils/config.js```
-
-7. Install backend dependencies:
-
-```npm install```
+```
+npm install
+```
 
 8. Install frontend dependencies:
 
@@ -59,55 +56,78 @@ cd front-end-for-vaccine-exercise
 npm install
 ```
 
-9. Start up another terminal, change directory to solita-vaccine-exercise and run the backend with:
+9. Start up another terminal, change directory to *solita-vaccine-exercise/* and run the backend with:
 
-```npm start```
+```
+npm start
+```
 
 10. Run the frontend from the other terminal with:
 
-```npm start```
+```
+npm start
+```
 
-11. The browser should open automatically at 'http://localhost:3000'.
+11. The browser should open automatically at *http://localhost:3000*.
 
 ## Building the app
 
-1. Change directory to solita-vaccine-exercise.
+1. Change directory to *solita-vaccine-exercise/*.
 
-2. Run npm script to build the app:
+2. Run the following npm script to build the app:
 
-```npm run build:ui```
+```
+npm run build:ui
+```
 
 ## Running tests
 
 ### Backend integration tests:
 
-1. Make sure your current directory is the root directory of the app, i.e. solita-vaccine-exercise.
+1. Make sure your current directory is the root directory of the app, i.e. *solita-vaccine-exercise/*.
 
 2. Run tests with:
 
-```npm run test```
+```
+npm run test
+```
 
 ### End-to-end tests:
 
-NOTE: the end-to-end tests expect that both the backend and frontend are running! In other words, before running the tests start the backend with ```npm start``` and then from another terminal change to frontend-for-vaccine-exercise and start the frontend with ```npm start```. The tests are run from the root directory solita-vaccine-exercise.
+NOTE: the end-to-end tests expect that both the backend and frontend are running. In other words, before running the tests start the backend with
+
+```
+npm start
+```
+
+and then from another terminal change to *frontend-for-vaccine-exercise/* and start the frontend with
+
+```
+npm start
+```
+
+The tests are run from the root directory *solita-vaccine-exercise/*.
 
 Running the tests with a graphical interface:
 
-```npm run cypress:open```
+```
+npm run cypress:open
+```
 
 Running the tests from the command line:
 
-```npm run cypress:e2e```
+```
+npm run cypress:e2e
+```
 
 ### Frontend unit tests:
 
-Change directory to frontend-for-vaccine-exercise:
+Change directory to *frontend-for-vaccine-exercise/* and run the tests:
 
-```cd frontend-for-vaccine-exercise```
-
-Run the tests:
-
-```CI=true npm test```
+```
+cd frontend-for-vaccine-exercise
+CI=true npm test
+```
 
 ## The original method of initialising the database
 
@@ -115,21 +135,26 @@ After installing the PostgreSQL database, the database can also be initialised w
 
 1. Change directory to the repository root:
 
-```cd solita-vaccine-exercise```
+```
+cd solita-vaccine-exercise
+```
 
-1. Run the Python script to convert the original source files (located in /original-source-data) into CSV files (saved at /resources).
+1. Run the Python script to convert the original source files (located in */original-source-data*) into CSV files (saved at */resources*).
 
-```python3 convert-source-data-to-csv.py```
+```
+python3 convert-source-data-to-csv.py
+```
 
-2. Login to the database:
+2. Login to the database (login method depends on the platform and method of installation):
 
-```psql```
-
-(depending on the platform)
+```
+psql
+```
 
 3. Create the necessary tables with the following commands:
 
-```CREATE TABLE orders (
+```
+CREATE TABLE orders (
     id varchar(255) PRIMARY KEY,
     order_number integer,
     responsible_person varchar(255),
@@ -137,18 +162,21 @@ After installing the PostgreSQL database, the database can also be initialised w
     vaccine varchar(255),
     injections integer,
     arrived timestamp
-)```
+)
+```
 
 and
 
-```CREATE TABLE vaccinations (
+```
+CREATE TABLE vaccinations (
     vaccination_id varchar(255) PRIMARY KEY,
     source_bottle varchar(255) REFERENCES orders (id),
     gender varchar(255),
     vaccination_date timestamp
-)```
+)
+```
 
-4. Run the following commands to copy data from the CSV files to the tables that were just created. **Please note: replace the file path with the path to the solita-vaccine-exercise directory.**
+4. Run the following commands to copy data from the CSV files to the tables that were just created. **Please note: replace the file path with the pathfrom root to the *solita-vaccine-exercise/* directory.**
 
 ```
 COPY orders(id, order_number, responsible_person, healthcare_district, vaccine, injections, arrived)
@@ -166,7 +194,9 @@ CSV HEADER;
 
 5. Exit the database interface:
 
-```\q```
+```
+\q
+```
 
 ## Features to be implemented
 

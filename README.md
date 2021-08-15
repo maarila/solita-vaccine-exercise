@@ -80,7 +80,13 @@ npm start
 npm run build:ui
 ```
 
-3. The built app can be run in the browser at http://localhost:3001.
+3. Start the built app with:
+
+```
+npm start
+```
+
+4. The built app can be run in the browser at http://localhost:3001.
 
 ## Running tests
 

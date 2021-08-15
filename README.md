@@ -18,14 +18,14 @@ sudo -u postgres psql postgres
 
 2. [Install Node.js.](https://nodejs.org/en/download/)
 
-3. Copy or clone the repository, and change directory:
+3. Copy or clone the repository, and change directory into it:
 
 ```
 git clone https://github.com/maarila/solita-vaccine-exercise.git
 cd solita-vaccine-exercise/
 ```
 
-4. Restore the database. For Mac and Postgres.app, replace the DBNAME with the username used when installing PostgreSQL (see 1). 
+4. Initialise the database by restoring it from a dump file. For Mac and Postgres.app, replace the DBNAME with the username used when installing PostgreSQL (see 1). 
 
 *Mac and Postgres.app:*
 
@@ -41,7 +41,7 @@ sudo -u postgres psql postgres < orders_and_vaccinations.sql
 
 Alternatively see the section *The original method of initialising the database* for instructions on how to initialise the database directly from the source files (ending in the same state as by restoring the dump).
 
-5. Edit the file utils/config.js and replace the 'user', 'database' and 'password' (if needed) entries with correct information. 
+5. Edit the file *utils/config.js* and replace the *user*, *database* and *password* (if needed) entries with correct information. 
 
 6. Install backend dependencies:
 
@@ -62,13 +62,13 @@ npm install
 npm start
 ```
 
-10. Run the frontend from the other terminal with:
+10. Run the frontend from the previous terminal with:
 
 ```
 npm start
 ```
 
-11. The browser should open automatically at *http://localhost:3000*.
+11. The browser should open automatically at http://localhost:3000.
 
 ## Building the app
 
@@ -80,7 +80,7 @@ npm start
 npm run build:ui
 ```
 
-3. The built app can be run in the browser at *http://localhost:3001*.
+3. The built app can be run in the browser at http://localhost:3001.
 
 ## Running tests
 
@@ -178,7 +178,7 @@ CREATE TABLE vaccinations (
 )
 ```
 
-4. Run the following commands to copy data from the CSV files to the tables that were just created. **Please note: replace the file path with the path from root to the *solita-vaccine-exercise/* directory.**
+4. Run the following commands to copy data from the CSV files to the tables that were just created. **Please note: replace the file path with the path from *root* to the *solita-vaccine-exercise/* directory.**
 
 ```
 COPY orders(id, order_number, responsible_person, healthcare_district, vaccine, injections, arrived)

@@ -4,13 +4,6 @@ const app = require('../app');
 
 const api = supertest(app);
 
-test('root redirects correctly', async () => {
-  await api
-    .get('/')
-    .expect(302)
-    .expect('Location', '/api/statistics');
-});
-
 test('statistics are returned as JSON', async () => {
   await api
     .get('/api/statistics')
